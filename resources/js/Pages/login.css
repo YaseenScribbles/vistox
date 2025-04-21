@@ -1,0 +1,59 @@
+body:has(.login) {
+    background: linear-gradient(to bottom right, #f0f4ff, #e8f1ff);
+    font-family: "Segoe UI", sans-serif;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 1.5rem;
+}
+
+.login-wrapper {
+    width: 100%;
+    max-width: 420px;
+}
+
+.logo {
+    max-width: 150px;
+    display: block;
+    margin: 0 auto 1.5rem auto;
+}
+
+.form-control {
+    border-radius: 0.75rem;
+    padding: 0.75rem;
+}
+
+.btn-primary {
+    border-radius: 0.75rem;
+    padding: 0.75rem;
+    font-weight: 500;
+}
+
+.form-label {
+    font-weight: 500;
+}
+
+.login-heading {
+    font-weight: 600;
+    margin-bottom: 0.25rem;
+    text-align: center;
+}
+
+.login-subtext {
+    font-size: 0.9rem;
+    color: #6c757d;
+    text-align: center;
+    margin-bottom: 1.5rem;
+}
+
+.glass-tip {
+    background: rgba(255, 255, 255, 0.6);
+    backdrop-filter: blur(6px);
+    -webkit-backdrop-filter: blur(6px);
+    border-radius: 0.75rem;
+    border: 1px solid rgba(0, 0, 0, 0.05);
+    color: #212529;
+    /* dark text for readability */
+    font-size: 0.85rem;
+}

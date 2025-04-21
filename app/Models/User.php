@@ -21,6 +21,13 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
+        'role',
+        'phone',
+        'district',
+        'state',
+        'manager',
+        'agent',
+        'active'
     ];
 
     /**
@@ -42,4 +49,9 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
         'password' => 'hashed',
     ];
+
+    public function manager()
+    {
+        return $this->belongsTo(User::class, 'manager');
+    }
 }

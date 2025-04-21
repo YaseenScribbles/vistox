@@ -1,0 +1,78 @@
+body:has(.user-list) {
+    font-family: "Segoe UI", sans-serif;
+    background-color: #f8f9fa;
+}
+
+.navbar-ios {
+    background-color: #fff;
+    box-shadow: 0 1px 5px rgba(0, 0, 0, 0.1);
+    z-index: 1020;
+}
+
+.navbar-title {
+    position: absolute;
+    left: 0;
+    right: 0;
+    text-align: center;
+    pointer-events: none;
+    font-weight: 600;
+}
+
+.user-meta {
+    font-size: 0.875rem;
+    color: #6c757d;
+}
+
+.user-status {
+    font-size: 0.75rem;
+    font-weight: 500;
+    padding: 2px 8px;
+    border-radius: 1rem;
+    display: inline-block;
+}
+
+.status-active {
+    background-color: #d1e7dd;
+    color: #0f5132;
+}
+
+.status-suspended {
+    background-color: #f8d7da;
+    color: #842029;
+}
+
+.search-container {
+    background-color: #fff;
+    padding: 0.75rem 1rem;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+    position: sticky;
+    top: 56px;
+    /* height of navbar */
+    z-index: 1010;
+}
+
+.search-input {
+    font-size: 0.9rem;
+}
+
+/* Add inside <style> */
+.list-container {
+    position: relative;
+    border-radius: 0.5rem;
+    background-color: #fff;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+    min-height: calc(100vh - 148px);
+    /* navbar (56) + search (56) + padding (36) */
+    overflow: hidden;
+}
+
+.loading-indicator {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}

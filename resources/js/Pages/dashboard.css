@@ -1,0 +1,58 @@
+.menu-link {
+    text-decoration: none;
+    color: inherit;
+}
+
+.menu-card {
+    display: block;
+    padding: 1.5rem;
+    border-radius: 1rem;
+    text-align: center;
+    transition: all 0.2s ease-in-out;
+    height: 100%;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+    cursor: pointer;
+}
+
+.menu-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.1);
+}
+
+.menu-icon {
+    font-size: 2rem;
+    margin-bottom: 0.5rem;
+}
+
+.bg-gradient-primary {
+    background: linear-gradient(135deg, #0d6efd, #3d8bfd);
+}
+
+.bg-gradient-info {
+    background: linear-gradient(135deg, #0dcaf0, #4dd3ff);
+}
+
+.bg-gradient-success {
+    background: linear-gradient(135deg, #198754, #45c18d);
+}
+
+.bg-gradient-secondary {
+    background: linear-gradient(135deg, #6c757d, #8f99a3);
+}
+
+.bg-gradient-danger {
+    background: linear-gradient(135deg, #dc3545, #ff6b6b);
+}
+
+.bg-gradient-warning {
+    background: linear-gradient(135deg, #b26a00, #e6a100);
+}
+
+.bg-gradient-purple {
+    background: linear-gradient(135deg, #6f42c1, #4e73df);
+}
+
+.menu-label {
+    font-size: 1rem;
+    font-weight: 500;
+}
