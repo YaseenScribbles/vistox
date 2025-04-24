@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from "react";
 import "./addUser.css";
-import { useForm } from "@inertiajs/react";
-import { generatePassword, states } from "../Common/common";
+import { useForm, Link, Head } from "@inertiajs/react";
+import { states } from "../Common/common";
 import { v6 as uuid } from "uuid";
 
 const AddUser = (props) => {
-    const { post, data, setData, errors } = useForm({
+    const { post, data, setData, errors, processing } = useForm({
         role: "",
         name: "",
         email: "",
@@ -38,15 +38,15 @@ const AddUser = (props) => {
                     state: "",
                     manager: "",
                     agent: "",
-                    password: "",
+                    // password: "",
                 });
             },
         });
     };
 
-    const setPassword = () => {
-        handleChange("password", generatePassword());
-    };
+    // const setPassword = () => {
+    //     handleChange("password", generatePassword());
+    // };
 
     useEffect(() => {
         if (props.managers) {
@@ -56,28 +56,29 @@ const AddUser = (props) => {
 
     return (
         <div className="add-user">
+            <Head title={`${props.appName} | Add User`} />
             {/* <!-- iOS-style Navbar (Add User Page) --> */}
             <nav className="navbar navbar-light navbar-ios sticky-top px-2">
                 <div className="container-fluid position-relative d-flex align-items-center justify-content-between">
                     {/* <!-- Left Back Button --> */}
-                    <a
+                    <Link
                         href="/dashboard"
                         className="btn btn-link text-decoration-none p-0"
                     >
                         <i className="bi bi-chevron-left fs-5 text-primary"></i>
-                    </a>
+                    </Link>
 
                     {/* <!-- Center Title --> */}
                     <span className="navbar-title">Add User</span>
 
                     {/* <!-- Right Save Button --> */}
-                    <button
+                    {/* <button
                         className="btn btn-link text-decoration-none p-0"
                         type="submit"
                         form="addUserForm"
                     >
                         <i className="bi bi-check2 text-primary fs-5"></i>
-                    </button>
+                    </button> */}
                 </div>
             </nav>
 
@@ -169,6 +170,7 @@ const AddUser = (props) => {
                                 onChange={(e) =>
                                     handleChange("phone", e.target.value)
                                 }
+                                required
                             />
                             {errors.phone && (
                                 <div className="invalid-feedback">
@@ -285,7 +287,7 @@ const AddUser = (props) => {
                             )}
                         </div>
 
-                        <div className="mb-4">
+                        {/* <div className="mb-4">
                             <label className="form-label">Password</label>
                             <div className="input-group">
                                 <input
@@ -315,15 +317,27 @@ const AddUser = (props) => {
                                     {errors.password}
                                 </div>
                             )}
-                        </div>
+                        </div> */}
 
                         <div className="d-grid">
                             <button
                                 className="btn btn-primary"
                                 type="submit"
                                 id="saveButton"
+                                disabled={processing}
                             >
-                                Save User
+                                {processing ? (
+                                    <div
+                                        className="spinner-border spinner-border-sm"
+                                        role="status"
+                                    >
+                                        <span className="visually-hidden">
+                                            Loading...
+                                        </span>
+                                    </div>
+                                ) : (
+                                    "Save User"
+                                )}
                             </button>
                         </div>
                     </form>

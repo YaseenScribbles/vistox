@@ -19,7 +19,7 @@ body:has(.login) {
     margin: 0 auto 1.5rem auto;
 }
 
-.form-control {
+.form-control.log-in {
     border-radius: 0.75rem;
     padding: 0.75rem;
 }

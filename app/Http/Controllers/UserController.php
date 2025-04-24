@@ -36,7 +36,7 @@ class UserController extends Controller
         $data = $request->validate([
             'name' => 'required|string',
             'email' => 'required|email|unique:users,email',
-            'password' => 'required',
+            'password' => 'nullable',
             'phone' => 'nullable|string',
             'role' => 'required|string',
             'district' => 'nullable|string',
@@ -45,8 +45,10 @@ class UserController extends Controller
             'manager' => 'nullable|exists:users,id',
         ]);
 
-        User::create($data);
-        return back()->with(['message' => 'User created successfully']);
+        $data['password'] = 'password';
+
+        $user = User::create($data);
+        return redirect()->route('users.show', $user->id)->with(['message' => 'User created successfully']);
     }
 
     /**
@@ -89,7 +91,7 @@ class UserController extends Controller
         }
 
         $user->update($data);
-        return redirect()->route('users.show', $user->id);
+        return redirect()->route('users.show', $user->id)->with(['message' => 'User updated successfully']);
     }
 
     /**
@@ -119,6 +121,6 @@ class UserController extends Controller
 
         $user->update($data);
         SendPasswordMail::dispatch($user, $data['password']);
-        return back()->with(['message' => 'Mail sent successfully']);
+        return back()->with(['message' => 'Email sent successfully']);
     }
 }

@@ -2,54 +2,62 @@ import React, { useEffect, useState } from "react";
 import "./userList.css";
 import { v4 as uuid } from "uuid";
 import { getUserRole } from "../Common/common";
+import { Head, Link } from "@inertiajs/react";
 
 const UserList = (props) => {
     const [users, setUsers] = useState([]);
     const [filteredUsers, setFilteredUsers] = useState([]);
     const [filterText, setFilterText] = useState("");
+    const [loading, setLoading] = useState(true);
 
     const filterUsers = (e) => {
         e.preventDefault();
         if (filterText) {
-            const filteredUsers = users.filter(
-                (user) => user.name.toLowerCase().includes(filterText.toLowerCase())
+            const filteredUsers = users.filter((user) =>
+                user.name.toLowerCase().includes(filterText.toLowerCase())
             );
             setFilteredUsers(filteredUsers);
-        } else {
-            setFilteredUsers(users);
         }
     };
+
+    useEffect(() => {
+        if(!filterText && users.length > 0){
+            setFilteredUsers(users)
+        }
+    }, [filterText])
 
     useEffect(() => {
         if (props.users) {
             setUsers(props.users);
             setFilteredUsers(props.users);
+            setLoading(false);
         }
     }, [props]);
 
     return (
         <div className="user-list">
+            <Head title={`${props.appName} | User List`} />
             {/* <!-- Navbar --> */}
             <nav className="navbar navbar-light navbar-ios sticky-top px-2">
                 <div className="container-fluid d-flex justify-content-between align-items-center position-relative">
                     {/* <!-- Left Button --> */}
-                    <a
+                    <Link
                         href="/dashboard"
                         className="btn btn-link text-decoration-none p-0"
                     >
                         <i className="bi bi-chevron-left fs-5"></i>
-                    </a>
+                    </Link>
 
                     {/* <!-- Center Title --> */}
                     <span className="navbar-title mx-auto">User List</span>
 
                     {/* <!-- Right Button --> */}
-                    <a
+                    <Link
                         href="/users/create"
                         className="btn btn-link text-decoration-none p-0"
                     >
                         <i className="bi bi-person-plus fs-5"></i>
-                    </a>
+                    </Link>
                 </div>
             </nav>
 
@@ -70,7 +78,7 @@ const UserList = (props) => {
             </div>
 
             <div className="container h-100 py-3">
-                <div className="list-container d-none">
+                <div className={`list-container ${loading ? "" : "d-none"}`}>
                     <div className="loading-indicator">
                         <div className="text-center">
                             <div
@@ -86,7 +94,7 @@ const UserList = (props) => {
                     {/* <!-- User Item --> */}
 
                     {filteredUsers.map((user) => (
-                        <a
+                        <Link
                             key={uuid()}
                             href={`/users/${user.id}`}
                             className="list-group-item list-group-item-action"
@@ -109,8 +117,15 @@ const UserList = (props) => {
                                     {user.active ? "Active" : "Suspended"}
                                 </span>
                             </div>
-                        </a>
+                        </Link>
                     ))}
+                </div>
+                <div
+                    className={`list-container ${
+                        filteredUsers.length > 0 ? "d-none" : "d-flex"
+                    } justify-content-center align-items-center`}
+                >
+                    <p className="text-body-secondary">No results</p>
                 </div>
             </div>
         </div>

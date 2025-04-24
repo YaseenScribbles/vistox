@@ -1,21 +1,21 @@
-import React, { useEffect, useState } from "react";
+import React, {  useState } from "react";
 import "./addUser.css";
-import { useForm } from "@inertiajs/react";
-import { generatePassword, states } from "../Common/common";
+import { Head, Link, useForm } from "@inertiajs/react";
+import { states } from "../Common/common";
 import { v6 as uuid } from "uuid";
 
 const EditUser = (props) => {
-    const { post, data, setData, errors } = useForm({
-        id: "",
-        role: "",
-        name: "",
-        email: "",
-        phone: "",
-        district: "",
-        state: "",
-        manager: "",
-        agent: "",
-        password: "",
+    const { post, data, setData, errors, processing } = useForm({
+        id: props.user.id,
+        role: props.user.role,
+        name: props.user.name,
+        email: props.user.email,
+        phone: props.user.phone,
+        district: props.user.district,
+        state: props.user.state,
+        manager: props.user.manager,
+        agent: props.user.agent,
+        // password: "",
     });
     const [managers, setManagers] = useState([]);
 
@@ -40,60 +40,61 @@ const EditUser = (props) => {
                     state: "",
                     manager: "",
                     agent: "",
-                    password: "",
+                    // password: "",
                 });
             },
         });
     };
 
-    const setPassword = () => {
-        handleChange("password", generatePassword());
-    };
+    // const setPassword = () => {
+    //     handleChange("password", generatePassword());
+    // };
 
-    useEffect(() => {
-        if (props.managers) {
-            setManagers(props.managers);
-        }
-        if (props.user) {
-            setData({
-                id: props.user.id,
-                role: props.user.role,
-                name: props.user.name,
-                email: props.user.email,
-                phone: props.user.phone,
-                district: props.user.district,
-                state: props.user.state,
-                manager: props.user.manager,
-                agent: props.user.agent,
-                password: "",
-            });
-        }
-    }, [props]);
+    // useEffect(() => {
+    //     if (props.managers) {
+    //         setManagers(props.managers);
+    //     }
+    //     if (props.user) {
+    //         setData({
+    //             id: props.user.id,
+    //             role: props.user.role,
+    //             name: props.user.name,
+    //             email: props.user.email,
+    //             phone: props.user.phone,
+    //             district: props.user.district,
+    //             state: props.user.state,
+    //             manager: props.user.manager,
+    //             agent: props.user.agent,
+    //             password: "",
+    //         });
+    //     }
+    // }, [props]);
 
     return (
         <div className="edit-user">
+            <Head title={`${props.appName} | Edit User`} />
             {/* <!-- iOS-style Navbar (Add User Page) --> */}
             <nav className="navbar navbar-light navbar-ios sticky-top px-2">
                 <div className="container-fluid position-relative d-flex align-items-center justify-content-between">
                     {/* <!-- Left Back Button --> */}
-                    <a
+                    <Link
                         href="/dashboard"
                         className="btn btn-link text-decoration-none p-0"
                     >
                         <i className="bi bi-chevron-left fs-5 text-primary"></i>
-                    </a>
+                    </Link>
 
                     {/* <!-- Center Title --> */}
                     <span className="navbar-title">Edit User</span>
 
                     {/* <!-- Right Save Button --> */}
-                    <button
+                    {/* <button
                         className="btn btn-link text-decoration-none p-0"
                         type="submit"
                         form="editUserForm"
                     >
                         <i className="bi bi-check2 text-primary fs-5"></i>
-                    </button>
+                    </button> */}
                 </div>
             </nav>
 
@@ -185,6 +186,7 @@ const EditUser = (props) => {
                                 onChange={(e) =>
                                     handleChange("phone", e.target.value)
                                 }
+                                required
                             />
                             {errors.phone && (
                                 <div className="invalid-feedback">
@@ -301,7 +303,7 @@ const EditUser = (props) => {
                             )}
                         </div>
 
-                        <div className="mb-4">
+                        {/* <div className="mb-4">
                             <label className="form-label">Password</label>
                             <div className="input-group">
                                 <input
@@ -330,15 +332,27 @@ const EditUser = (props) => {
                                     {errors.password}
                                 </div>
                             )}
-                        </div>
+                        </div> */}
 
                         <div className="d-grid">
-                            <button
+                        <button
                                 className="btn btn-primary"
                                 type="submit"
                                 id="saveButton"
+                                disabled={processing}
                             >
-                                Update User
+                                {processing ? (
+                                    <div
+                                        className="spinner-border spinner-border-sm"
+                                        role="status"
+                                    >
+                                        <span className="visually-hidden">
+                                            Loading...
+                                        </span>
+                                    </div>
+                                ) : (
+                                    "Update User"
+                                )}
                             </button>
                         </div>
                     </form>

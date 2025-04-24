@@ -2,7 +2,7 @@
     "private": true,
     "type": "module",
     "scripts": {
-        "dev": "vite",
+        "dev": "vite --host=192.168.10.65",
         "build": "vite build"
     },
     "devDependencies": {
@@ -14,6 +14,7 @@
         "@inertiajs/react": "^2.0.8",
         "@vitejs/plugin-react": "^4.4.1",
         "react": "^19.1.0",
+        "react-bootstrap": "^2.10.9",
         "react-dom": "^19.1.0",
         "uuid": "^11.1.0"
     }

@@ -1,12 +1,13 @@
 import React from "react";
 import "./dashboard.css";
-import { useForm } from "@inertiajs/react";
+import { useForm, Link, Head } from "@inertiajs/react";
 
 const Dashboard = (props) => {
     const { post } = useForm();
 
     return (
         <>
+            <Head title={`${props.appName} | Dashboard`} />
             <nav className="navbar navbar-light bg-white shadow-sm w-100 px-3 sticky-top justify-content-center">
                 <img
                     src="https://essa.in/cdn/shop/files/ESSA_LOGO_New_black-font_af80b8c9-e0de-4a0a-924c-dd0c9db3c862.png?v=1740131920&width=120"
@@ -29,7 +30,9 @@ const Dashboard = (props) => {
                         ></i>
                     </div>
                     <div className="ms-3">
-                        <h6 className="mb-0 fw-semibold">Hi, {props.auth.user.name}</h6>
+                        <h6 className="mb-0 fw-semibold">
+                            Hi, {props.auth.user.name}
+                        </h6>
                         <small className="text-muted">
                             Welcome to your dashboard
                         </small>
@@ -38,48 +41,48 @@ const Dashboard = (props) => {
 
                 <div className="row g-3">
                     <div className="col-6 col-md-4">
-                        <a href="/users/create" className="menu-link">
+                        <Link href="/users/create" className="menu-link">
                             <div className="menu-card text-white bg-gradient-primary">
                                 <div className="menu-icon">
                                     <i className="bi bi-person-plus-fill"></i>
                                 </div>
                                 <div className="menu-label">Add User</div>
                             </div>
-                        </a>
+                        </Link>
                     </div>
 
                     <div className="col-6 col-md-4">
-                        <a href="/users" className="menu-link">
+                        <Link href="/users" className="menu-link">
                             <div className="menu-card text-white bg-gradient-info">
                                 <div className="menu-icon">
                                     <i className="bi bi-people-fill"></i>
                                 </div>
                                 <div className="menu-label">My Users</div>
                             </div>
-                        </a>
+                        </Link>
                     </div>
 
-                    {/* <div className="col-6 col-md-4">
-                        <a href="add-contact.html" className="menu-link">
+                    <div className="col-6 col-md-4">
+                        <Link href="/contacts/create" className="menu-link">
                             <div className="menu-card text-white bg-gradient-success">
                                 <div className="menu-icon">
                                     <i className="bi bi-person-lines-fill"></i>
                                 </div>
                                 <div className="menu-label">Add Contact</div>
                             </div>
-                        </a>
-                    </div> */}
+                        </Link>
+                    </div>
 
-                    {/* <div className="col-6 col-md-4">
-                        <a href="contact-list.html" className="menu-link">
+                    <div className="col-6 col-md-4">
+                        <Link href="/contacts" className="menu-link">
                             <div className="menu-card text-white bg-gradient-secondary">
                                 <div className="menu-icon">
                                     <i className="bi bi-journal-bookmark"></i>
                                 </div>
                                 <div className="menu-label">My Contacts</div>
                             </div>
-                        </a>
-                    </div> */}
+                        </Link>
+                    </div>
 
                     {/*  🆕 Add New Order  */}
                     {/* <div className="col-6 col-md-4">
@@ -142,7 +145,7 @@ const Dashboard = (props) => {
                     </div> */}
 
                     <div className="col-12 col-md-4">
-                        <a
+                        <Link
                             href="#"
                             className="menu-link"
                             onClick={() =>
@@ -155,7 +158,7 @@ const Dashboard = (props) => {
                                 </div>
                                 <div className="menu-label">Logout</div>
                             </div>
-                        </a>
+                        </Link>
                     </div>
                 </div>
             </div>

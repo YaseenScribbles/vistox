@@ -1,9 +1,9 @@
 import React from "react";
 import "./login.css";
-import { useForm } from "@inertiajs/react";
+import { Head, useForm } from "@inertiajs/react";
 
 const Login = (props) => {
-    const { post, data, setData, errors } = useForm({
+    const { post, data, setData, errors, processing } = useForm({
         email: "",
         password: "",
     });
@@ -16,6 +16,7 @@ const Login = (props) => {
 
     return (
         <div className="login">
+            <Head title={`${props.appName} | Login`} />
             <div className="login-wrapper">
                 <img
                     src="https://essa.in/cdn/shop/files/ESSA_LOGO_New_black-font_af80b8c9-e0de-4a0a-924c-dd0c9db3c862.png?v=1740131920&width=160"
@@ -25,11 +26,7 @@ const Login = (props) => {
 
                 <h4 className="login-heading">Welcome Back</h4>
 
-                <form
-                    className="was-validated"
-                    noValidate
-                    onSubmit={handleSubmit}
-                >
+                <form onSubmit={handleSubmit}>
                     <div className="mb-3">
                         <label htmlFor="email" className="form-label">
                             Email
@@ -38,7 +35,7 @@ const Login = (props) => {
                             type="email"
                             className={`form-control ${
                                 errors.email ? "is-invalid" : ""
-                            }`}
+                            } log-in`}
                             id="email"
                             placeholder="you@example.com"
                             required
@@ -65,7 +62,7 @@ const Login = (props) => {
                             type="password"
                             className={`form-control ${
                                 errors.password ? "is-invalid" : ""
-                            }`}
+                            } log-in`}
                             id="password"
                             required
                             value={data.password}
@@ -84,8 +81,20 @@ const Login = (props) => {
                     </div>
 
                     <div className="d-grid">
-                        <button type="submit" className="btn btn-primary">
-                            Login
+                        <button
+                            type="submit"
+                            className="btn btn-primary"
+                            disabled={processing}
+                        >
+                            {processing ? (
+                                <div className="spinner-border spinner-border-sm" role="status">
+                                    <span className="visually-hidden">
+                                        Loading...
+                                    </span>
+                                </div>
+                            ) : (
+                                "Login"
+                            )}
                         </button>
                     </div>
                 </form>

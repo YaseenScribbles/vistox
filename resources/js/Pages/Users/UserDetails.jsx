@@ -1,7 +1,9 @@
 import React, { useEffect, useState } from "react";
 import "./userDetails.css";
 import { generatePassword, getUserRole } from "../Common/common";
-import { router } from "@inertiajs/react";
+import { Head, Link, router } from "@inertiajs/react";
+import SuccessModal from "../Components/SuccessModal";
+// import ModalSuccess from "../Components/ModalSuccess";
 
 const UserDetails = (props) => {
     const [user, setUser] = useState({
@@ -19,6 +21,7 @@ const UserDetails = (props) => {
         },
         active: "",
     });
+    const [showSuccess, setShowSuccess] = useState(false);
 
     const changeStatus = () => {
         if (user.id) {
@@ -37,20 +40,26 @@ const UserDetails = (props) => {
         if (props.user) {
             setUser(props.user);
         }
+        if (props.message) {
+            if (props.message.includes("success")) {
+                setShowSuccess(true);
+            }
+        }
     }, [props]);
 
     return (
         <div className="user-details">
+            <Head title={`${props.appName} | User Details`}/>
             {/* <!-- iOS-style Navbar (User Details Page) --> */}
             <nav className="navbar navbar-light navbar-ios sticky-top px-2">
                 <div className="container-fluid position-relative d-flex align-items-center justify-content-between">
                     {/* <!-- Left Back Button --> */}
-                    <a
-                        href="/dashboard"
+                    <Link
+                        href="/users"
                         className="btn btn-link text-decoration-none p-0"
                     >
                         <i className="bi bi-chevron-left fs-5 text-primary"></i>
-                    </a>
+                    </Link>
 
                     {/* <!-- Center Title --> */}
                     <span className="navbar-title">User Details</span>
@@ -66,12 +75,12 @@ const UserDetails = (props) => {
                         </a>
                         <ul className="dropdown-menu dropdown-menu-end">
                             <li>
-                                <a
+                                <Link
                                     className="dropdown-item"
                                     href={`/users/${user.id}/edit`}
                                 >
                                     Edit User
-                                </a>
+                                </Link>
                             </li>
                             <li>
                                 <a
@@ -161,7 +170,17 @@ const UserDetails = (props) => {
                         {/* <!-- <span className="badge bg-danger">Suspended</span> --> */}
                     </div>
                 </div>
+                {/* <ModalSuccess
+                    show={showSuccess}
+                    onClose={() => setShowSuccess(false)}
+                    message="Success"
+                /> */}
             </div>
+            <SuccessModal
+                show={showSuccess}
+                onClose={() => setShowSuccess(false)}
+                message={props.message}
+            />
         </div>
     );
 };
