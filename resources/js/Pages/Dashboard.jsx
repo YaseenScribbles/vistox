@@ -85,28 +85,28 @@ const Dashboard = (props) => {
                     </div>
 
                     {/*  🆕 Add New Order  */}
-                    {/* <div className="col-6 col-md-4">
-                        <a href="add-new-order.html" className="menu-link">
+                    <div className="col-6 col-md-4">
+                        <Link href="/orders/create" className="menu-link">
                             <div className="menu-card text-white bg-gradient-warning">
                                 <div className="menu-icon">
                                     <i className="bi bi-cart-plus-fill"></i>
                                 </div>
-                                <div className="menu-label">Add New Order</div>
+                                <div className="menu-label">Add Order</div>
                             </div>
-                        </a>
-                    </div> */}
+                        </Link>
+                    </div>
 
                     {/*  📋 My Orders  */}
-                    {/* <div className="col-6 col-md-4">
-                        <a href="order-list.html" className="menu-link">
+                    <div className="col-6 col-md-4">
+                        <Link href="/orders" className="menu-link">
                             <div className="menu-card text-white bg-gradient-purple">
                                 <div className="menu-icon">
                                     <i className="bi bi-clipboard-check-fill"></i>
                                 </div>
                                 <div className="menu-label">My Orders</div>
                             </div>
-                        </a>
-                    </div> */}
+                        </Link>
+                    </div>
 
                     {/*  🆕 New Visit  */}
                     {/* <div className="col-6 col-md-4">
@@ -164,7 +164,7 @@ const Dashboard = (props) => {
             </div>
 
             <footer className="text-center text-muted py-3 small">
-                &copy; 2025 ESSA Garments. All rights reserved.
+                &copy; {new Date().getFullYear()} ESSA Garments. All rights reserved.
             </footer>
         </>
     );

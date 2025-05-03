@@ -38,7 +38,8 @@ class ContactController extends Controller
             'district' => 'nullable|string',
             'state' => 'required|string',
             'phone' => 'required|string',
-            'email' => 'required|email|unique:contacts,email'
+            'email' => 'required|email|unique:contacts,email',
+            'user_id' => 'required|exists:users,id'
         ]);
 
         $contact = Contact::create($data);
@@ -76,7 +77,8 @@ class ContactController extends Controller
             'district' => 'nullable|string',
             'state' => 'required|string',
             'phone' => 'required|string',
-            'email' => 'required|email|unique:contacts,email,' . $contact->id
+            'email' => 'required|email|unique:contacts,email,' . $contact->id,
+            'user_id' => 'required|exists:users,id'
         ]);
 
         $contact->update($data);

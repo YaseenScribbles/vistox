@@ -13,9 +13,12 @@
     "dependencies": {
         "@inertiajs/react": "^2.0.8",
         "@vitejs/plugin-react": "^4.4.1",
+        "date-fns": "^4.1.0",
         "react": "^19.1.0",
         "react-bootstrap": "^2.10.9",
         "react-dom": "^19.1.0",
+        "sweetalert2": "^11.19.1",
+        "sweetalert2-react-content": "^5.1.0",
         "uuid": "^11.1.0"
     }
 }

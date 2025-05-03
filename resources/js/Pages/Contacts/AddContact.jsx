@@ -1,6 +1,8 @@
 import { Head, Link, useForm } from "@inertiajs/react";
 import React from "react";
 import "./AddContact.css";
+import { states } from "../Common/common";
+import { v6 as uuid } from "uuid"
 
 const AddContact = (props) => {
     const { data, setData, processing, post, errors } = useForm({
@@ -13,6 +15,7 @@ const AddContact = (props) => {
         state: "",
         phone: "",
         email: "",
+        user_id: props.auth.user.id,
     });
 
     const handleChange = (key, value) => {
@@ -36,6 +39,7 @@ const AddContact = (props) => {
                     state: "",
                     phone: "",
                     email: "",
+                    user_id: ""
                 });
             },
         });
@@ -94,7 +98,6 @@ const AddContact = (props) => {
                                         e.target.value.toUpperCase()
                                     )
                                 }
-                                required
                             />
                             <div className="invalid-feedback">
                                 {errors.contact_person && errors.contact_person}
@@ -119,7 +122,6 @@ const AddContact = (props) => {
                                         e.target.value.toUpperCase()
                                     )
                                 }
-                                required
                             />
                             <div className="invalid-feedback">
                                 {errors.shop_name && errors.shop_name}
@@ -219,7 +221,7 @@ const AddContact = (props) => {
                             </div>
                         </div>
 
-                        <div className="mb-3">
+                        {/* <div className="mb-3">
                             <label htmlFor="state" className="form-label">
                                 State
                             </label>
@@ -237,11 +239,37 @@ const AddContact = (props) => {
                                         e.target.value.toUpperCase()
                                     )
                                 }
-                                required
                             />
                             <div className="invalid-feedback">
                                 {errors.state && errors.state}
                             </div>
+                        </div> */}
+
+                        <div className="mb-3">
+                            <label className="form-label">State</label>
+                            <select
+                                className={`form-select ${
+                                    errors.state ? "is-invalid" : ""
+                                }`}
+                                value={data.state}
+                                onChange={(e) =>
+                                    handleChange("state", e.target.value)
+                                }
+                            >
+                                <option value="" disabled>
+                                    Select state
+                                </option>
+                                {states.map((state) => (
+                                    <option key={uuid()} value={state}>
+                                        {state}
+                                    </option>
+                                ))}
+                            </select>
+                            {errors.state && (
+                                <div className="invalid-feedback">
+                                    {errors.state}
+                                </div>
+                            )}
                         </div>
 
                         <div className="mb-3">
@@ -259,7 +287,6 @@ const AddContact = (props) => {
                                 onChange={(e) =>
                                     handleChange("phone", e.target.value)
                                 }
-                                required
                             />
                             <div className="invalid-feedback">
                                 {errors.phone && errors.phone}
@@ -284,7 +311,6 @@ const AddContact = (props) => {
                                         e.target.value.toLowerCase()
                                     )
                                 }
-                                required
                             />
                             <div className="invalid-feedback">
                                 {errors.email && errors.email}

@@ -95,7 +95,6 @@ const AddUser = (props) => {
                                 onChange={(e) =>
                                     handleChange("role", e.target.value)
                                 }
-                                required
                             >
                                 <option value={""} disabled>
                                     Select role
@@ -128,7 +127,6 @@ const AddUser = (props) => {
                                         e.target.value.toUpperCase()
                                     )
                                 }
-                                required
                             />
                             {errors.name && (
                                 <div className="invalid-feedback">
@@ -149,7 +147,6 @@ const AddUser = (props) => {
                                 onChange={(e) =>
                                     handleChange("email", e.target.value)
                                 }
-                                required
                             />
                             {errors.email && (
                                 <div className="invalid-feedback">
@@ -170,7 +167,6 @@ const AddUser = (props) => {
                                 onChange={(e) =>
                                     handleChange("phone", e.target.value)
                                 }
-                                required
                             />
                             {errors.phone && (
                                 <div className="invalid-feedback">
@@ -212,7 +208,6 @@ const AddUser = (props) => {
                                 onChange={(e) =>
                                     handleChange("state", e.target.value)
                                 }
-                                required
                             >
                                 <option value="" disabled>
                                     Select state

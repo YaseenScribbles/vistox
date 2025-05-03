@@ -19,5 +19,6 @@ class Contact extends Model
         'state',
         'phone',
         'email',
+        'user_id'
     ];
 }

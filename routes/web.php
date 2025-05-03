@@ -3,6 +3,7 @@
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\ContactController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\OrderController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 
@@ -42,5 +43,8 @@ Route::middleware(['auth', 'auth.session'])->group(
 
         //Contacts
         Route::resource('contacts',ContactController::class);
+
+        //Orders
+        Route::resource('orders', OrderController::class);
     }
 );
