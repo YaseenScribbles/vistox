@@ -5,6 +5,7 @@ use App\Http\Controllers\ContactController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\VisitController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -42,9 +43,12 @@ Route::middleware(['auth', 'auth.session'])->group(
         Route::post('/mail-password/{user}', [UserController::class, 'sendPassword']);
 
         //Contacts
-        Route::resource('contacts',ContactController::class);
+        Route::resource('contacts', ContactController::class);
 
         //Orders
         Route::resource('orders', OrderController::class);
+
+        //Visits
+        Route::resource('visits', VisitController::class);
     }
 );

@@ -51,6 +51,14 @@ const OrderDetails = (props) => {
                             <li>
                                 <Link
                                     className="dropdown-item"
+                                    href={`/orders/create`}
+                                >
+                                    Add Order
+                                </Link>
+                            </li>
+                            <li>
+                                <Link
+                                    className="dropdown-item"
                                     href={`/orders/${order.id}/edit`}
                                 >
                                     Edit Order
@@ -186,7 +194,6 @@ const OrderDetails = (props) => {
             <a href="#" className="btn btn-primary btn-floating">
                 <i className="bi bi-plus"></i>
             </a>
-
         </div>
     );
 };

@@ -3,7 +3,8 @@
     "type": "module",
     "scripts": {
         "dev": "vite --host=192.168.10.65",
-        "build": "vite build"
+        "build": "vite build",
+        "start": "concurrently \"php artisan serve --host=192.168.10.65\" \"npm run dev\""
     },
     "devDependencies": {
         "axios": "^1.6.4",

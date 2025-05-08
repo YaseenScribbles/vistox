@@ -1,12 +1,12 @@
 import React from "react";
 import { Modal, Form, Button } from "react-bootstrap";
 
-const OrderFilter = ({
+const VisitFilter = ({
     show,
     handleClose,
     duration,
     setDuration,
-    fetchOrders,
+    fetchVisits,
 }) => {
     return (
         <Modal
@@ -22,11 +22,11 @@ const OrderFilter = ({
                     <Form.Label>From</Form.Label>
                     <Form.Control
                         type="date"
-                        value={duration.fromDate}
+                        value={duration.from_date}
                         onChange={(e) =>
                             setDuration((prev) => ({
                                 ...prev,
-                                fromDate: e.target.value,
+                                from_date: e.target.value,
                             }))
                         }
                     />
@@ -35,18 +35,18 @@ const OrderFilter = ({
                     <Form.Label>To</Form.Label>
                     <Form.Control
                         type="date"
-                        value={duration.toDate}
+                        value={duration.to_date}
                         onChange={(e) =>
                             setDuration((prev) => ({
                                 ...prev,
-                                toDate: e.target.value,
+                                to_date: e.target.value,
                             }))
                         }
                     />
                 </Form.Group>
             </Modal.Body>
             <Modal.Footer>
-                <Button variant="primary" onClick={fetchOrders}>
+                <Button variant="primary" onClick={fetchVisits}>
                     Load
                 </Button>
             </Modal.Footer>
@@ -54,4 +54,4 @@ const OrderFilter = ({
     );
 };
 
-export default OrderFilter;
+export default VisitFilter;

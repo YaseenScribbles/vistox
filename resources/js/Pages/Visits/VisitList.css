@@ -1,0 +1,36 @@
+body:has(.visit-list) {
+    background-color: #f8f9fa;
+    font-family: "Segoe UI", sans-serif;
+}
+
+.navbar {
+    background-color: #fff;
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.05);
+}
+
+.visit-card {
+    background-color: #ffffff;
+    border-radius: 10px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+    padding: 1rem;
+    margin-bottom: 1rem;
+}
+
+.visit-card:hover {
+    background-color: #f1f1f1;
+    transition: background-color 0.2s ease;
+}
+
+.small-text {
+    font-size: 0.875rem;
+    color: #6c757d;
+}
+
+/* .search-input {
+    position: sticky;
+    top: 56px;
+    background-color: #f8f9fa;
+    padding-top: 0.75rem;
+    padding-bottom: 0.25rem;
+    z-index: 100;
+} */

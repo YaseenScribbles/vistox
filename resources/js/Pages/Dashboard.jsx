@@ -109,8 +109,8 @@ const Dashboard = (props) => {
                     </div>
 
                     {/*  🆕 New Visit  */}
-                    {/* <div className="col-6 col-md-4">
-                        <a href="add-new-visit.html" className="menu-link">
+                    <div className="col-6 col-md-4">
+                        <Link href="/visits/create" className="menu-link">
                             <div
                                 className="menu-card text-white"
                                 style={{
@@ -123,12 +123,12 @@ const Dashboard = (props) => {
                                 </div>
                                 <div className="menu-label">New Visit</div>
                             </div>
-                        </a>
-                    </div> */}
+                        </Link>
+                    </div>
 
                     {/*  📋 My Visits  */}
-                    {/* <div className="col-6 col-md-4">
-                        <a href="my-visits.html" className="menu-link">
+                    <div className="col-6 col-md-4">
+                        <Link href="/visits" className="menu-link">
                             <div
                                 className="menu-card text-white"
                                 style={{
@@ -141,8 +141,8 @@ const Dashboard = (props) => {
                                 </div>
                                 <div className="menu-label">My Visits</div>
                             </div>
-                        </a>
-                    </div> */}
+                        </Link>
+                    </div>
 
                     <div className="col-12 col-md-4">
                         <Link

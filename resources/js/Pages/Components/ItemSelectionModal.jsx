@@ -197,7 +197,7 @@ const ItemSelectionModal = ({
                                     <input
                                         type="number"
                                         inputMode="numeric"
-                                        className="form-control form-control-sm text-end"
+                                        className="form-control form-control-sm text-center"
                                         style={{ width: "60px" }}
                                         value={e.qty === 0 ? "" : e.qty}
                                         onChange={(event) => {
