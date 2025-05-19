@@ -1,8 +1,8 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import "./AddVisit.css";
 import ContactSelectionModal from "./ContactSelectionModal";
 import { Head, Link, router, useForm } from "@inertiajs/react";
-import { compressImage } from "../Common/common";
+import {  compressImage2 } from "../Common/common";
 import Swal from "sweetalert2";
 import withReactContent from "sweetalert2-react-content";
 
@@ -25,7 +25,7 @@ const AddVisit = (props) => {
 
         const compressed = await Promise.all(
             uploadedImages.map(async (img) => {
-                const blob = await compressImage(img, 0.7);
+                const blob = await compressImage2(img);
                 return {
                     blob,
                     previewUrl: URL.createObjectURL(blob),

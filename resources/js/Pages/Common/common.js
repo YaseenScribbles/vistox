@@ -1,3 +1,5 @@
+import imageCompression from "browser-image-compression";
+
 export const states = [
     "Andhra Pradesh",
     "Arunachal Pradesh",
@@ -132,5 +134,26 @@ export function compressImage(file, quality = 0.7, maxWidth = 0, maxHeight = 0) 
         reader.onerror = () => reject(new Error("File read error."));
         reader.readAsDataURL(file);
     });
+}
+
+export async function compressImage2(file, {
+  maxSizeMB = 0.5,
+  maxWidthOrHeight = 1280,
+  outputType = 'image/jpeg'
+} = {}) {
+  try {
+    const options = {
+      maxSizeMB,
+      maxWidthOrHeight,
+      useWebWorker: true,
+      fileType: outputType
+    };
+
+    const compressedFile = await imageCompression(file, options);
+    return compressedFile; // It's already a Blob or File
+  } catch (error) {
+    console.error('Compression error:', error);
+    throw new Error('Image compression failed');
+  }
 }
 
