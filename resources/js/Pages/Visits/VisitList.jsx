@@ -145,7 +145,13 @@ const VisitList = (props) => {
             <div className="container py-2">
                 {filteredVisits.length > 0 &&
                     filteredVisits.map((visit) => (
-                        <div key={uuid()} className="visit-card">
+                        <div
+                            key={uuid()}
+                            className="visit-card"
+                            onClick={() =>
+                                router.get(`/visits/${visit.id}/edit`)
+                            }
+                        >
                             <div className="d-flex justify-content-between">
                                 <div>
                                     <div className="fw-semibold text-dark">
@@ -193,6 +199,14 @@ const VisitList = (props) => {
                             )}
                         </div>
                     ))}
+
+                <div
+                    className={`list-container ${
+                        filteredVisits.length > 0 ? "d-none" : "d-flex"
+                    } justify-content-center align-items-center`}
+                >
+                    <p className="text-body-secondary">No results</p>
+                </div>
 
                 {/* <!-- Visit Entry --> */}
                 {/* <div className="visit-card">

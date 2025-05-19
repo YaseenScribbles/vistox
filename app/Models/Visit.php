@@ -15,4 +15,9 @@ class Visit extends Model
         'remarks',
         'user_id'
     ];
+
+    public function visit_images()
+    {
+        return $this->hasMany(VisitImage::class, 'visit_id');
+    }
 }

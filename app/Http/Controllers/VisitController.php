@@ -8,6 +8,7 @@ use App\Models\VisitImage;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Storage;
 
 class VisitController extends Controller
 {
@@ -29,6 +30,7 @@ class VisitController extends Controller
             ->join('contacts as c', 'c.id',  '=', 'v.contact_id')
             ->whereBetween('v.created_at', [Carbon::parse($fromDate)->startOfDay(), Carbon::parse($toDate)->endOfDay()])
             ->select([
+                'v.id',
                 'c.contact_person',
                 'c.district',
                 'c.zipcode',
@@ -118,7 +120,23 @@ class VisitController extends Controller
      */
     public function edit(Visit $visit)
     {
-        //
+        $contacts = Contact::all();
+        $contact = Contact::find($visit->contact_id);
+        return inertia('Visits/EditVisit', [
+            'visit' => [
+                'id' => $visit->id,
+                'contact_id' => $visit->contact_id,
+                'reason' => $visit->reason,
+                'remarks' => $visit->remarks,
+                'visit_images' => $visit->visit_images->map(function ($img) {
+                    return [
+                        'image_path' => asset('storage/' . $img->image_path),
+                    ];
+                }),
+            ],
+            'contact' => $contact,
+            'contacts' => $contacts,
+        ]);
     }
 
     /**
@@ -126,7 +144,57 @@ class VisitController extends Controller
      */
     public function update(Request $request, Visit $visit)
     {
-        //
+        $request->validate([
+            'contact_id' => 'required|exists:contacts,id',
+            'reason' => 'required|string',
+            'remarks' => 'string|nullable',
+            'visit_images' => 'nullable|array',
+            'visit_images.*.is_new' => 'boolean',
+            'visit_images.*.image' => 'nullable|image|mimes:jpg,jpeg,png|max:1024',
+            'visit_images.*.old_path' => 'nullable|string',
+        ]);
+
+        try {
+            //code...
+            DB::beginTransaction();
+            $masterData = $request->except('visit_images');
+            $visit->update($masterData);
+            $visitImages = $request->visit_images;
+            $oldImagePaths = array_filter(array_map(function ($image) {
+                return !$image['is_new'] ? str_replace(asset('storage') . '/', '', $image['old_path']) : null;
+            }, $visitImages));
+
+            $newImages = array_filter(array_map(function ($image) {
+                return $image['is_new'] ? $image['image'] : null;
+            }, $visitImages));
+
+            $imagestoDelete = $visit->visit_images()->whereNotIn('image_path', $oldImagePaths)->get();
+
+            foreach ($imagestoDelete as $img) {
+                # code...
+                Storage::disk('public')->delete($img->image_path);
+            }
+
+            $visit->visit_images()->whereNotIn('image_path', $oldImagePaths)->delete();
+
+            foreach ($newImages as $img) {
+                # code...
+                if (!$img) continue;
+                $path = $img->store('images', 'public');
+                VisitImage::create([
+                    'visit_id' => $visit->id,
+                    'image_path' => $path,
+                ]);
+            }
+
+            DB::commit();
+
+            return back()->with('message', 'Visit updated successfully');
+        } catch (\Throwable $th) {
+            //throw $th;
+            DB::rollBack();
+            return back()->with('message', $th->getMessage());
+        }
     }
 
     /**
@@ -134,6 +202,21 @@ class VisitController extends Controller
      */
     public function destroy(Visit $visit)
     {
-        //
+        try {
+            //code...
+            DB::beginTransaction();
+            foreach ($visit->visit_images as $img) {
+                Storage::disk('public')->delete($img->image_path);
+            }
+            $visit->visit_images()->delete();
+
+            $visit->delete();
+            DB::commit();
+            return back()->with('message', 'Visit deleted successfully');
+        } catch (\Throwable $th) {
+            //throw $th;
+            DB::rollBack();
+            return back()->with('message', $th->getMessage());
+        }
     }
 }

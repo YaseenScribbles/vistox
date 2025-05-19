@@ -1,10 +1,7 @@
-import React from "react";
 import "./dashboard.css";
-import { useForm, Link, Head } from "@inertiajs/react";
+import { Link, Head, router } from "@inertiajs/react";
 
 const Dashboard = (props) => {
-    const { post } = useForm();
-
     return (
         <>
             <Head title={`${props.appName} | Dashboard`} />
@@ -145,26 +142,28 @@ const Dashboard = (props) => {
                     </div>
 
                     <div className="col-12 col-md-4">
-                        <Link
-                            href="#"
-                            className="menu-link"
-                            onClick={() =>
-                                post("/logout", {}, { replace: true })
-                            }
-                        >
-                            <div className="menu-card text-white bg-gradient-danger">
+                        <div className="menu-link">
+                            <div
+                                className="menu-card text-white bg-gradient-danger"
+                                onClick={() =>
+                                    router.post("/logout", {
+                                        _token: props.csrf_token,
+                                    })
+                                }
+                            >
                                 <div className="menu-icon">
                                     <i className="bi bi-box-arrow-right"></i>
                                 </div>
                                 <div className="menu-label">Logout</div>
                             </div>
-                        </Link>
+                        </div>
                     </div>
                 </div>
             </div>
 
             <footer className="text-center text-muted py-3 small">
-                &copy; {new Date().getFullYear()} ESSA Garments. All rights reserved.
+                &copy; {new Date().getFullYear()} ESSA Garments. All rights
+                reserved.
             </footer>
         </>
     );
