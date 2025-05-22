@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Contact;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class ContactController extends Controller
 {
@@ -12,16 +13,28 @@ class ContactController extends Controller
      */
     public function index()
     {
-        $contacts = Contact::all();
+        $query = DB::table('contacts');
+
+        if (auth()->user()->role === 'representative') {
+            $query->where('state', auth()->user()->state);
+        }
+
+        $query->orderByDesc('id');
+
+        $contacts = $query->get();
+
         return inertia('Contacts/ContactList', compact('contacts'));
     }
 
     /**
      * Show the form for creating a new resource.
      */
-    public function create()
+    public function create(Request $request)
     {
-        return inertia('Contacts/AddContact');
+
+        $from  = $request->query('from');
+
+        return inertia('Contacts/AddContact', compact('from'));
     }
 
     /**
@@ -37,9 +50,11 @@ class ContactController extends Controller
             'zipcode' => 'nullable|string|size:6',
             'district' => 'nullable|string',
             'state' => 'required|string',
-            'phone' => 'required|string',
-            'email' => 'required|email|unique:contacts,email',
+            'phone' => ['required', 'regex: /^(\d{6,15})(,\s*\d{6,15})*$/', new \App\Rules\UniqueMobileNumbers('contacts', 'phone')],
+            'email' => 'nullable|email|unique:contacts,email',
             'user_id' => 'required|exists:users,id'
+        ], [
+            'phone.regex' => 'Enter a valid mobile number, if more separate them by commas.'
         ]);
 
         $contact = Contact::create($data);
@@ -76,9 +91,11 @@ class ContactController extends Controller
             'zipcode' => 'nullable|string|size:6',
             'district' => 'nullable|string',
             'state' => 'required|string',
-            'phone' => 'required|string',
-            'email' => 'required|email|unique:contacts,email,' . $contact->id,
+            'phone' => ['required', 'regex: /^(\d{6,15})(,\s*\d{6,15})*$/', new \App\Rules\UniqueMobileNumbers('contacts', 'phone', $contact->id)],
+            'email' => 'nullable|email|unique:contacts,email,' . $contact->id,
             'user_id' => 'required|exists:users,id'
+        ], [
+            'phone.regex' => 'Enter a valid mobile number, if more separate them by commas.'
         ]);
 
         $contact->update($data);

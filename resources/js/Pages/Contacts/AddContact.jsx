@@ -1,8 +1,8 @@
 import { Head, Link, useForm } from "@inertiajs/react";
-import React from "react";
+import React, { useState } from "react";
 import "./AddContact.css";
 import { states } from "../Common/common";
-import { v6 as uuid } from "uuid"
+import { v6 as uuid } from "uuid";
 
 const AddContact = (props) => {
     const { data, setData, processing, post, errors } = useForm({
@@ -12,7 +12,10 @@ const AddContact = (props) => {
         city: "",
         zipcode: "",
         district: "",
-        state: "",
+        state:
+            props.auth.user.role === "representative"
+                ? props.auth.user.state
+                : "",
         phone: "",
         email: "",
         user_id: props.auth.user.id,
@@ -27,6 +30,7 @@ const AddContact = (props) => {
 
     const handleSubmit = (e) => {
         e.preventDefault();
+
         post("/contacts", {
             onSuccess: () => {
                 setData({
@@ -39,7 +43,7 @@ const AddContact = (props) => {
                     state: "",
                     phone: "",
                     email: "",
-                    user_id: ""
+                    user_id: "",
                 });
             },
         });
@@ -53,7 +57,7 @@ const AddContact = (props) => {
                 <div className="container-fluid position-relative d-flex align-items-center justify-content-between">
                     {/* <!-- Left Back Button --> */}
                     <Link
-                        href="/dashboard"
+                        href={`/${props.from}`}
                         className="btn btn-link text-decoration-none p-0"
                     >
                         <i className="bi bi-chevron-left fs-5 text-primary"></i>
@@ -255,6 +259,9 @@ const AddContact = (props) => {
                                 onChange={(e) =>
                                     handleChange("state", e.target.value)
                                 }
+                                disabled={
+                                    props.auth.user.role === "representative"
+                                }
                             >
                                 <option value="" disabled>
                                     Select state
@@ -291,6 +298,13 @@ const AddContact = (props) => {
                             <div className="invalid-feedback">
                                 {errors.phone && errors.phone}
                             </div>
+                            {/* {phoneValidation && (
+                                <div style={{ fontSize: "14px" }}>
+                                    <p className="text-danger">
+                                        {phoneValidation}
+                                    </p>
+                                </div>
+                            )} */}
                         </div>
 
                         <div className="mb-3">

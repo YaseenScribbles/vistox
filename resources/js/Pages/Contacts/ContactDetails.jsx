@@ -42,7 +42,7 @@ const ContactDetails = (props) => {
                     <span className="navbar-title">Contact Details</span>
 
                     <Link
-                        href={`/contacts/${contact.id}/edit`}
+                        href={`/contacts/${contact.id}/edit?from=contacts`}
                         className="btn btn-link text-decoration-none p-0"
                     >
                         <i className="bi bi-pencil-square fs-5"></i>
@@ -60,7 +60,29 @@ const ContactDetails = (props) => {
 
                     <div className="list-group-item">
                         <span className="list-label">Contact Person</span>
-                        <span className="list-value">{contact.contact_person}</span>
+                        <span className="list-value">
+                            {contact.contact_person}
+                        </span>
+                    </div>
+
+                    <div className="list-group-item">
+                        <span className="list-label">Address</span>
+                        <span className="list-value">{contact.address}</span>
+                    </div>
+
+                    <div className="list-group-item">
+                        <span className="list-label">City</span>
+                        <span className="list-value">{contact.city}</span>
+                    </div>
+
+                    <div className="list-group-item">
+                        <span className="list-label">District</span>
+                        <span className="list-value">{contact.district}</span>
+                    </div>
+
+                    <div className="list-group-item">
+                        <span className="list-label">Zipcode</span>
+                        <span className="list-value">{contact.zipcode}</span>
                     </div>
 
                     <div className="list-group-item">
@@ -71,6 +93,11 @@ const ContactDetails = (props) => {
                     <div className="list-group-item">
                         <span className="list-label">Phone</span>
                         <span className="list-value">+91 {contact.phone}</span>
+                    </div>
+
+                    <div className="list-group-item">
+                        <span className="list-label">Email</span>
+                        <span className="list-value">{contact.email}</span>
                     </div>
                 </div>
             </div>

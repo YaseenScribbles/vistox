@@ -62,7 +62,7 @@ const AddUser = (props) => {
                 <div className="container-fluid position-relative d-flex align-items-center justify-content-between">
                     {/* <!-- Left Back Button --> */}
                     <Link
-                        href="/dashboard"
+                        href={`/${props.from}`}
                         className="btn btn-link text-decoration-none p-0"
                     >
                         <i className="bi bi-chevron-left fs-5 text-primary"></i>

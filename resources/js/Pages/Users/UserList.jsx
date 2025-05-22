@@ -53,7 +53,7 @@ const UserList = (props) => {
 
                     {/* <!-- Right Button --> */}
                     <Link
-                        href="/users/create"
+                        href="/users/create?from=users"
                         className="btn btn-link text-decoration-none p-0"
                     >
                         <i className="bi bi-person-plus fs-5"></i>

@@ -72,7 +72,7 @@ const EditContact = (props) => {
                 <div className="container-fluid position-relative d-flex align-items-center justify-content-between">
                     {/* <!-- Left Back Button --> */}
                     <Link
-                        href="/dashboard"
+                        href="/contacts"
                         className="btn btn-link text-decoration-none p-0"
                     >
                         <i className="bi bi-chevron-left fs-5 text-primary"></i>
@@ -250,6 +250,7 @@ const EditContact = (props) => {
                                 onChange={(e) =>
                                     handleChange("state", e.target.value)
                                 }
+                                disabled={props.auth.user.role === "representative"}
                             >
                                 <option value="" disabled>
                                     Select state

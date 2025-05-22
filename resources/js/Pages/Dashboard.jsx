@@ -38,7 +38,7 @@ const Dashboard = (props) => {
 
                 <div className="row g-3">
                     <div className="col-6 col-md-4">
-                        <Link href="/users/create" className="menu-link">
+                        <Link href="/users/create?from=dashboard" className="menu-link">
                             <div className="menu-card text-white bg-gradient-primary">
                                 <div className="menu-icon">
                                     <i className="bi bi-person-plus-fill"></i>
@@ -60,7 +60,7 @@ const Dashboard = (props) => {
                     </div>
 
                     <div className="col-6 col-md-4">
-                        <Link href="/contacts/create" className="menu-link">
+                        <Link href="/contacts/create?from=dashboard" className="menu-link">
                             <div className="menu-card text-white bg-gradient-success">
                                 <div className="menu-icon">
                                     <i className="bi bi-person-lines-fill"></i>

@@ -12,20 +12,21 @@ class UserController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
+        $from = $request->query('from');
         $users = User::all();
-        return inertia('Users/UserList', compact('users'));
+        return inertia('Users/UserList', compact('users', 'from'));
     }
 
     /**
      * Show the form for creating a new resource.
      */
-    public function create()
+    public function create(Request $request)
     {
         $managers = $this->getManagers();
-
-        return inertia('Users/AddUser', compact('managers'));
+        $from = $request->query('from');
+        return inertia('Users/AddUser', compact('managers', 'from'));
     }
 
     /**

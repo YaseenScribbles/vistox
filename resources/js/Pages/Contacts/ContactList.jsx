@@ -45,7 +45,7 @@ const ContactList = (props) => {
                     </Link>
                     <span className="navbar-title mx-auto">Contact List</span>
                     <Link
-                        href="/contacts/create"
+                        href="/contacts/create?from=contacts"
                         className="btn btn-link text-decoration-none p-0"
                     >
                         <i className="bi bi-person-plus fs-5"></i>
