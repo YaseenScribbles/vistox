@@ -61,7 +61,7 @@ const OrderList = (props) => {
         <div className="order-list">
             <Head title={`${props.appName} | Order List`} />
             {/* <!-- Navbar --> */}
-            <nav className="navbar navbar-light px-3 py-2">
+            <nav className="navbar px-3 py-2" style={{ backgroundColor: "#e3f2fd", height: "60px" }}>
                 <div className="d-flex align-items-center w-100 position-relative">
                     <Link
                         href="/dashboard"

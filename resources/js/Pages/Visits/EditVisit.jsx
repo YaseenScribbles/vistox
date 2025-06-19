@@ -23,6 +23,8 @@ const EditVisit = (props) => {
             blob: null,
             previewUrl: e.image_path,
             isNew: false,
+            progress: 100,
+            isLoaded: true,
         }));
     });
     const mySwal = withReactContent(Swal);
@@ -30,18 +32,74 @@ const EditVisit = (props) => {
     const handleFileChange = async (e) => {
         const uploadedImages = Array.from(e.target.files);
 
-        const compressed = await Promise.all(
-            uploadedImages.map(async (img) => {
-                const blob = await compressImage2(img);
-                return {
-                    blob,
-                    previewUrl: URL.createObjectURL(blob),
-                    isNew: true,
-                };
-            })
-        );
+        // const compressed = await Promise.all(
+        //     uploadedImages.map(async (img) => {
+        //         const blob = await compressImage2(img);
+        //         return {
+        //             blob,
+        //             previewUrl: URL.createObjectURL(blob),
+        //             isNew: true,
+        //         };
+        //     })
+        // );
 
-        setImages((prev) => [...prev, ...compressed]);
+        // setImages((prev) => [...prev, ...compressed]);
+
+        uploadedImages.forEach((file, fileIndex) => {
+            const reader = new FileReader();
+
+            // Step 1: Add initial placeholder with 0% progress
+            setImages((prev) => [
+                ...prev,
+                {
+                    file,
+                    previewUrl: null,
+                    blob: null,
+                    progress: 0,
+                    isLoaded: false,
+                    isNew: true,
+                },
+            ]);
+
+            const currentIndex = images.length + fileIndex;
+
+            reader.onprogress = (event) => {
+                if (event.lengthComputable) {
+                    const percentLoaded = Math.round(
+                        (event.loaded / event.total) * 100
+                    );
+                    console.log(percentLoaded);
+                    setImages((prev) => {
+                        const updated = [...prev];
+                        updated[currentIndex] = {
+                            ...updated[currentIndex],
+                            progress: percentLoaded,
+                        };
+                        return updated;
+                    });
+                }
+            };
+
+            reader.onloadend = async () => {
+                // Step 2: Compress the image after reading
+                const blob = await compressImage2(file);
+
+                setImages((prev) => {
+                    const updated = [...prev];
+                    updated[currentIndex] = {
+                        ...updated[currentIndex],
+                        blob,
+                        previewUrl: URL.createObjectURL(blob),
+                        progress: 100,
+                        isLoaded: true,
+                        isNew: true,
+                    };
+                    return updated;
+                });
+            };
+
+            reader.readAsArrayBuffer(file); // triggers onprogress
+        });
     };
 
     const handleRemove = (index) => {
@@ -114,7 +172,7 @@ const EditVisit = (props) => {
             visit_images: images.map((img) => ({
                 is_new: img.isNew,
                 image: img.blob,
-                old_path: img.previewUrl
+                old_path: img.previewUrl,
             })),
         }));
     }, [contact, images]);
@@ -123,7 +181,10 @@ const EditVisit = (props) => {
         <div className="edit-visit">
             <Head title={`${props.appName} | Edit Visit`} />
             {/* <!-- Navbar --> */}
-            <nav className="navbar bg-white shadow-sm sticky-top px-3 py-2">
+            <nav
+                className="navbar shadow-sm sticky-top px-3 py-2"
+                style={{ backgroundColor: "#e3f2fd", height: "60px" }}
+            >
                 <div className="d-flex align-items-center w-100 position-relative">
                     <Link
                         href="/visits"
@@ -230,18 +291,60 @@ const EditVisit = (props) => {
                                             className="position-relative d-flex flex-column align-items-center"
                                             style={{ width: "120px" }}
                                         >
-                                            <img
-                                                src={img.previewUrl}
-                                                alt={`preview-${index}`}
-                                                style={{
-                                                    width: "100%",
-                                                    height: "100px",
-                                                    objectFit: "cover",
-                                                    borderRadius: "8px",
-                                                    border: "1px solid #dee2e6",
-                                                    marginBottom: "4px",
-                                                }}
-                                            />
+                                            {img.isLoaded ? (
+                                                <img
+                                                    src={img.previewUrl}
+                                                    alt={`preview-${index}`}
+                                                    style={{
+                                                        width: "100%",
+                                                        height: "100px",
+                                                        objectFit: "cover",
+                                                        borderRadius: "8px",
+                                                        border: "1px solid #dee2e6",
+                                                        marginBottom: "4px",
+                                                    }}
+                                                />
+                                            ) : (
+                                                <div
+                                                    className="d-flex align-items-center justify-content-center"
+                                                    style={{
+                                                        width: "100%",
+                                                        height: "100px",
+                                                        backgroundColor:
+                                                            "#f8f9fa",
+                                                        borderRadius: "8px",
+                                                        border: "1px solid #dee2e6",
+                                                        marginBottom: "4px",
+                                                        position: "relative",
+                                                        fontSize: "0.8rem",
+                                                    }}
+                                                >
+                                                    <div
+                                                        className="progress w-100"
+                                                        style={{
+                                                            height: "16px",
+                                                        }}
+                                                        role="progressbar"
+                                                        aria-label="Photo upload process"
+                                                        aria-valuenow={
+                                                            img.progress
+                                                        }
+                                                        aria-valuemin="0"
+                                                        aria-valuemax="100"
+                                                    >
+                                                        <div
+                                                            className="progress-bar text-bg-success"
+                                                            style={{
+                                                                width: `${img.progress}%`,
+                                                                transition:
+                                                                    "width 0.3s ease",
+                                                            }}
+                                                        >
+                                                            {img.progress}%
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            )}
                                             <button
                                                 type="button"
                                                 className="btn btn-sm btn-danger"

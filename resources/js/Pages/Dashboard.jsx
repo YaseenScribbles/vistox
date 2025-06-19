@@ -5,7 +5,7 @@ const Dashboard = (props) => {
     return (
         <>
             <Head title={`${props.appName} | Dashboard`} />
-            <nav className="navbar navbar-light bg-white shadow-sm w-100 px-3 sticky-top justify-content-center">
+            <nav className="navbar navbar-light bg-white shadow-sm w-100 px-3 sticky-top justify-content-center" style={{ height: "60px" }}>
                 <img
                     src="https://essa.in/cdn/shop/files/ESSA_LOGO_New_black-font_af80b8c9-e0de-4a0a-924c-dd0c9db3c862.png?v=1740131920&width=120"
                     alt="Logo"

@@ -28,7 +28,7 @@ const ContactSelectionModal = ({ show, onClose, contacts, setContact }) => {
         <Modal show={show} fullscreen onHide={onClose}>
             <Modal.Body className="p-0" style={{ background: "#f8f9fa" }}>
                 {/* <!-- Navbar --> */}
-                <nav className="navbar navbar-light navbar-ios sticky-top px-2">
+                <nav className="navbar navbar-ios sticky-top px-2" style={{ backgroundColor: "#e3f2fd", height: "60px" }}>
                     <div className="container-fluid d-flex justify-content-between align-items-center position-relative">
                         <a
                             href="#"

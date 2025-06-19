@@ -35,7 +35,7 @@ const ContactList = (props) => {
         <div className="contact-list">
             <Head title={`${props.appName} | Contact List`} />
             {/* <!-- Navbar --> */}
-            <nav className="navbar navbar-light navbar-ios sticky-top px-2">
+            <nav className="navbar navbar-ios sticky-top px-2" style={{ backgroundColor: "#e3f2fd", height: "60px" }}>
                 <div className="container-fluid d-flex justify-content-between align-items-center position-relative">
                     <Link
                         href="/dashboard"

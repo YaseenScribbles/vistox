@@ -68,7 +68,7 @@ const EditContact = (props) => {
         <div className="edit-contact">
             <Head title={`${props.appName} | Edit Contact`} />
             {/* <!-- iOS-style Navbar (Add User Page) --> */}
-            <nav className="navbar navbar-light navbar-ios sticky-top px-2">
+            <nav className="navbar navbar-ios sticky-top px-2" style={{ backgroundColor: "#e3f2fd", height: "60px" }}>
                 <div className="container-fluid position-relative d-flex align-items-center justify-content-between">
                     {/* <!-- Left Back Button --> */}
                     <Link
