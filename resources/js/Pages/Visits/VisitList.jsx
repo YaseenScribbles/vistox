@@ -97,7 +97,7 @@ const VisitList = (props) => {
         <div className="visit-list">
             <Head title={`${props.appName} | Visit List`} />
             {/* <!-- Navbar --> */}
-            <nav className="navbar sticky-top px-3 py-2">
+            <nav className="navbar sticky-top px-3 py-2" style={{ backgroundColor: "#e3f2fd", height: "60px" }}>
                 <div className="d-flex align-items-center w-100 position-relative">
                     <Link
                         href="/dashboard"
