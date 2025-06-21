@@ -29,7 +29,7 @@ const EditVisit = (props) => {
     });
     const mySwal = withReactContent(Swal);
 
-    const handleFileChange = async (e) => {
+    const handleFileChange = (e) => {
         const uploadedImages = Array.from(e.target.files);
 
         // const compressed = await Promise.all(
@@ -45,16 +45,17 @@ const EditVisit = (props) => {
 
         // setImages((prev) => [...prev, ...compressed]);
 
-        uploadedImages.forEach((file, fileIndex) => {
-            const reader = new FileReader();
+        if (!uploadedImages.length) return;
 
+        uploadedImages.forEach((file, fileIndex) => {
+            // Step 1: Add placeholder
             setImages((prev) => [
                 ...prev,
                 {
                     file,
+                    isNew: true,
                     previewUrl: null,
                     blob: null,
-                    isNew: true,
                     progress: 0,
                     isLoaded: false,
                 },
@@ -62,46 +63,49 @@ const EditVisit = (props) => {
 
             const currentIndex = images.length + fileIndex;
 
+            // Step 2: Simulate progress manually
             let progress = 0;
-            let progressTimer;
+            const progressTimer = setInterval(() => {
+                progress += 10;
+                setImages((prev) => {
+                    const updated = [...prev];
+                    if (
+                        updated[currentIndex] &&
+                        updated[currentIndex].progress < 95
+                    ) {
+                        updated[currentIndex] = {
+                            ...updated[currentIndex],
+                            progress,
+                        };
+                    }
+                    return updated;
+                });
+                if (progress >= 95) clearInterval(progressTimer);
+            }, 10);
 
-            reader.onloadstart = () => {
-                progressTimer = setInterval(() => {
-                    progress += 10;
+            // Step 3: Compress and finalize
+            compressImage2(file)
+                .then((blob) => {
+                    clearInterval(progressTimer);
                     setImages((prev) => {
                         const updated = [...prev];
-                        if (updated[currentIndex].progress < 95) {
+                        if (updated[currentIndex]) {
                             updated[currentIndex] = {
                                 ...updated[currentIndex],
-                                progress,
+                                blob,
+                                previewUrl: URL.createObjectURL(blob),
+                                progress: 100,
+                                isLoaded: true,
                             };
                         }
                         return updated;
                     });
-
-                    if (progress >= 95) clearInterval(progressTimer);
-                }, 10);
-            };
-
-            reader.onloadend = async () => {
-                const blob = await compressImage2(file);
-
-                clearInterval(progressTimer);
-
-                setImages((prev) => {
-                    const updated = [...prev];
-                    updated[currentIndex] = {
-                        ...updated[currentIndex],
-                        blob,
-                        previewUrl: URL.createObjectURL(blob),
-                        progress: 100,
-                        isLoaded: true,
-                    };
-                    return updated;
+                })
+                .catch((err) => {
+                    clearInterval(progressTimer);
+                    console.error("Compression failed:", err);
+                    // Optionally remove failed item from UI or show error
                 });
-            };
-
-            reader.readAsArrayBuffer(file);
         });
     };
 
