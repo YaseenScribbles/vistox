@@ -37,7 +37,6 @@ const AddVisit = (props) => {
         uploadedImages.forEach((file, fileIndex) => {
             const reader = new FileReader();
 
-            // Step 1: Add initial placeholder with 0% progress
             setImages((prev) => [
                 ...prev,
                 {
@@ -51,26 +50,31 @@ const AddVisit = (props) => {
 
             const currentIndex = images.length + fileIndex;
 
-            reader.onprogress = (event) => {
-                if (event.lengthComputable) {
-                    const percentLoaded = Math.round(
-                        (event.loaded / event.total) * 100
-                    );
-                    console.log(percentLoaded);
+            let progress = 0;
+            let progressTimer;
+
+            reader.onloadstart = () => {
+                progressTimer = setInterval(() => {
+                    progress += 10;
                     setImages((prev) => {
                         const updated = [...prev];
-                        updated[currentIndex] = {
-                            ...updated[currentIndex],
-                            progress: percentLoaded,
-                        };
+                        if (updated[currentIndex].progress < 95) {
+                            updated[currentIndex] = {
+                                ...updated[currentIndex],
+                                progress,
+                            };
+                        }
                         return updated;
                     });
-                }
+
+                    if (progress >= 95) clearInterval(progressTimer);
+                }, 10);
             };
 
             reader.onloadend = async () => {
-                // Step 2: Compress the image after reading
                 const blob = await compressImage2(file);
+
+                clearInterval(progressTimer);
 
                 setImages((prev) => {
                     const updated = [...prev];
@@ -85,7 +89,7 @@ const AddVisit = (props) => {
                 });
             };
 
-            reader.readAsArrayBuffer(file); // triggers onprogress
+            reader.readAsArrayBuffer(file);
         });
     };
 
@@ -304,7 +308,9 @@ const AddVisit = (props) => {
                                                 >
                                                     <div
                                                         className="progress w-100"
-                                                        style={{ height: "16px" }}
+                                                        style={{
+                                                            height: "16px",
+                                                        }}
                                                         role="progressbar"
                                                         aria-label="Photo upload process"
                                                         aria-valuenow={
@@ -317,7 +323,8 @@ const AddVisit = (props) => {
                                                             className="progress-bar text-bg-success"
                                                             style={{
                                                                 width: `${img.progress}%`,
-                                                                transition: "width 0.3s ease"
+                                                                transition:
+                                                                    "width 0.3s ease",
                                                             }}
                                                         >
                                                             {img.progress}%

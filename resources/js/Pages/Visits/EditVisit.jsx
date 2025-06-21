@@ -48,41 +48,45 @@ const EditVisit = (props) => {
         uploadedImages.forEach((file, fileIndex) => {
             const reader = new FileReader();
 
-            // Step 1: Add initial placeholder with 0% progress
             setImages((prev) => [
                 ...prev,
                 {
                     file,
                     previewUrl: null,
                     blob: null,
+                    isNew: true,
                     progress: 0,
                     isLoaded: false,
-                    isNew: true,
                 },
             ]);
 
             const currentIndex = images.length + fileIndex;
 
-            reader.onprogress = (event) => {
-                if (event.lengthComputable) {
-                    const percentLoaded = Math.round(
-                        (event.loaded / event.total) * 100
-                    );
-                    console.log(percentLoaded);
+            let progress = 0;
+            let progressTimer;
+
+            reader.onloadstart = () => {
+                progressTimer = setInterval(() => {
+                    progress += 10;
                     setImages((prev) => {
                         const updated = [...prev];
-                        updated[currentIndex] = {
-                            ...updated[currentIndex],
-                            progress: percentLoaded,
-                        };
+                        if (updated[currentIndex].progress < 95) {
+                            updated[currentIndex] = {
+                                ...updated[currentIndex],
+                                progress,
+                            };
+                        }
                         return updated;
                     });
-                }
+
+                    if (progress >= 95) clearInterval(progressTimer);
+                }, 10);
             };
 
             reader.onloadend = async () => {
-                // Step 2: Compress the image after reading
                 const blob = await compressImage2(file);
+
+                clearInterval(progressTimer);
 
                 setImages((prev) => {
                     const updated = [...prev];
@@ -92,13 +96,12 @@ const EditVisit = (props) => {
                         previewUrl: URL.createObjectURL(blob),
                         progress: 100,
                         isLoaded: true,
-                        isNew: true,
                     };
                     return updated;
                 });
             };
 
-            reader.readAsArrayBuffer(file); // triggers onprogress
+            reader.readAsArrayBuffer(file);
         });
     };
 
